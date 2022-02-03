@@ -1,0 +1,5 @@
+- [x] halfadder
+- [x] adder
+- [x] inc
+- [x] add16
+- [x] ALU
