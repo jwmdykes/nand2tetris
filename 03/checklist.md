@@ -1,0 +1,8 @@
+- [x] bit
+- [x] register
+- [x] Ram8, feed in value to all registers
+- [x] Ram64, stack together 8 ram8s
+- [x] Ram512, stack together 8 ram 64s
+- [x] Ram4K
+- [x] Ram16K
+- [x] PC, program counter

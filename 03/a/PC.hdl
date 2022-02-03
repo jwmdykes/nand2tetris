@@ -16,5 +16,13 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+
+    Inc16(in=saveout, out=incval); // calculate increment
+    Mux16(a=saveout, b=incval, sel=inc, out=incout); // use increment if flag is set
+    
+    Mux16(a=incout, b=in, sel=load, out=loadout); // load if flag is set
+
+    Mux16(a=loadout, b=false, sel=reset, out=resetout); // reset if flag is set
+    // keep track of the state in a 16 bit register
+    Register(in=resetout, load=true, out=out, out=saveout); // we don't need the load functionality since we've already implemented it.
 }
