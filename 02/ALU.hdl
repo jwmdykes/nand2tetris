@@ -61,7 +61,7 @@ CHIP ALU {
     Not16(in=fxy, out=notfxy);
     Mux16(a=fxy, b=notfxy, sel=no, out=out, out[0..7]=outlsb, out[8..15]=outmsb);
 
-    // Set output bits
+    // Set output flags
     Or8Way(in=outmsb, out=ng, out=zrmsb);
     Or8Way(in=outlsb, out=zflsb);
     Or(a=zrmsb, b=zflsb, out=notzr);
