@@ -1,0 +1,21 @@
+/*
+Takes inputs a,b,c,d
+Truth table:
+
+sel[1] | sel[0] | out 
+---------------------
+0      | 0      | a
+0      | 1      | b
+1      | 0      | c
+1      | 1      | d
+*/
+
+CHIP Mux4Way {
+    IN a,b,c,d,sel[2];
+    OUT out;
+
+    PARTS:
+    Mux(a=a, b=b, sel=sel[0], out=mux1);
+    Mux(a=c, b=d, sel=sel[0], out=mux2);
+    Mux(a=mux1, b=mux2, sel=sel[1], out=out);
+}

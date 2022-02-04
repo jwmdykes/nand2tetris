@@ -1,0 +1,27 @@
+/*
+Takes inputs a,b,c,d,e,f,g,h, sel[3]
+Truth table:
+
+sel[2] | sel[1] | sel[0] | out 
+----------------------
+0      | 0      | 0      | a
+0      | 0      | 1      | b
+0      | 1      | 0      | c
+0      | 1      | 1      | d
+1      | 0      | 0      | e
+1      | 0      | 1      | f
+1      | 1      | 0      | g
+1      | 1      | 1      | h
+*/
+
+CHIP Mux8Way {
+    IN a,b,c,d,
+       e,f,g,h,
+       sel[3];
+    OUT out;
+
+    PARTS:
+    Mux4Way(a=a, b=b, c=c, d=d, sel=sel[0..1], out=mux1);
+    Mux4Way(a=e, b=f, c=g, d=h, sel=sel[0..1], out=mux2);
+    Mux(a=mux1, b=mux2, sel=sel[2], out=out);
+}

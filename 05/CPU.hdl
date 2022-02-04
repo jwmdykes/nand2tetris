@@ -39,5 +39,46 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    Not(in=instruction[15], out=aInstruction);
+    And(a=instruction[15], b=true, out=cInstruction);
+
+    // Handle A register
+    Mux16(a=aluOut, b=instruction, sel=aInstruction, out=Ain); // test if A instruction
+    // load into A if instruction is A instruction or dest has A in it
+    Or(a=aInstruction, b=instruction[5], out=loadA);
+    ARegister(in=Ain, load=loadA, out=Aout, out[0..14]=addressM); // A register
+
+    // Handle D register
+    And(a=cInstruction, b=instruction[4], out=loadD);
+    DRegister(in=aluOut, load=loadD, out=aluin1);
+
+    // ALU second input
+    Mux16(a=Aout, b=inM, sel=instruction[12], out=aluin2);
+
+    // ALU 
+    ALU(x=aluin1, y=aluin2, 
+        zx=instruction[11], nx=instruction[10],  // zx = c1, nx = c2
+        zy=instruction[9], ny=instruction[8], // zy = c3, ny = c4
+        f=instruction[7], no=instruction[6],  // f = c5, no = c6
+        out=aluOut, out=outM,                 // store in registers and to OUT of interface
+        zr=jeq, ng=jlt);
+
+    And(a=cInstruction, b=instruction[3], out=writeM); // only write M if instruction is c instruction with destination M
+
+    // set jump flags jgt, jeq, jge, jlt, jne, jle
+    Not(in=jeq, out=jne);
+    Not(in=jlt, out=jge);
+    And(a=jne, b=jge, out=jgt);
+    Or(a=jeq, b=jlt, out=jle);
+
+    // pick correct jump flag based on `jjj` part of instruction
+    Mux8Way(a=false, b=jgt,
+        c=jeq, d=jge, 
+        e=jlt, f=jne, 
+        g=jle, h=true, 
+        sel=instruction[0..2], 
+        out[0]=jumpFlag);
+
+    And(a=cInstruction, b=jumpFlag, out=shouldJump);
+    PC(in=Aout, load=shouldJump, inc=true, reset=reset, out[0..14]=pc); // PC register ; program counter
 }
