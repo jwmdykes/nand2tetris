@@ -1,2 +1,2 @@
-- [ ] mult
+- [x] mult
 - [x] fill
