@@ -27,5 +27,27 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // memory goes from 0 to 0x6000 (24576 base 10).
+    // for 0 to 0x4000-1 (16383 base 10) get the RAM address 
+    // from 0x4000 to 0x6000-1, get the screen address
+    // above 0x6000 is undefined behaviour
+
+    // to implement this, we do as follows
+    // if 15th bit is 0, address the RAM
+    // if the 15th is one, but the 14th bit is not one, address the screen 
+    // if the 15th and thirteenth bits are one, address the keyboard
+
+    Not(in=address[14], out=getRAM);
+    And(a=address[14], b=address[13], out=getKBD);
+    Not(in=getRAM, out=notgetRAM);
+    And(a=notgetRAM, b=in[13], out=getSCREEN);
+
+    And(a=getSCREEN, b=load, out=loadSCREEN);
+    Screen(in=in, load=loadSCREEN, address=address[0..12], out=screenout);
+    Keyboard(out=kbdout);
+    And(a=getRAM, b=load, out=loadRAM);
+    RAM16K(in=in, load=loadRAM, address=address[0..13], out=ramout);
+
+    Mux16(a=screenout, b=ramout, sel=getRAM, out=screenORram);
+    Mux16(a=screenORram, b=kbdout, sel=getKBD, out=out);
 }
