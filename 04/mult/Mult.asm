@@ -10,3 +10,51 @@
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
 // Put your code here.
+// We add R1 by itself R0 times
+
+(INIT)
+    // reset R2 = 0
+    @R2
+    M = 0
+
+    // counter = 0
+    @i
+    M=0
+
+(LOOP)
+    // if (c-i == 0) { goto STOP }
+    @R0
+    D=M
+    @i
+    D=D-M
+    @STOP
+    D;JEQ
+
+    // result = result + x
+    @R2
+    D=M
+    @R1
+    D=D+M
+    @R2
+    M=D
+
+    // ++i
+    @i
+    D=M
+    M=D+1
+
+    // goto LOOP
+    @LOOP
+    0;JMP 
+
+(STOP)
+    // store result in R2
+    @R2
+    D=M
+    @R2
+    M=D
+
+(END)
+    // goto END
+    @END
+    0;JMP
