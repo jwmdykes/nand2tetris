@@ -7,7 +7,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Sat Feb 05 01:11:32 2022
+# Make data base, printed on Sat Feb 05 01:22:27 2022
 
 # Variables
 
@@ -126,7 +126,8 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Calibre2\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\dotnet\;C:\Users\98joh\scoop\apps\gcc\current\bin;C:\Users\98joh\scoop\shims;C:\Users\98joh\.cargo\bin;C:\Users\98joh\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\98joh\AppData\Local\Programs\Python\Python310\;C:\Users\98joh\AppData\Local\Microsoft\WindowsApps;C:\Users\98joh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\98joh\.vs-kubernetes\tools;C:\Users\98joh\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\98joh\AppData\Local\Programs\Azure Data Studio\bin;C:\Users\98joh\AppData\Local\GitHubDesktop\bin;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin;C:\Users\98joh\.dotnet\tools;C:\Program Files\LLVM\bin
+PATH = C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Calibre2\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\dotnet\;C:\Users\98joh\scoop\apps\gcc\current\bin;C:\Users\98joh\scoop\shims;C:\Users\98joh\.cargo\bin;C:\Users\98joh\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\98joh\AppData\Local\Programs\Python\Python310\;C:\Users\98joh\AppData\Local\Microsoft\WindowsApps;C:\Users\98joh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\98joh\.vs-kubernetes\tools;C:\Users\98joh\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\98joh\AppData\Local\Programs\Azure Data Stud 
+io\bin;C:\Users\98joh\AppData\Local\GitHubDesktop\bin;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin;C:\Users\98joh\.dotnet\tools;C:\Program Files\LLVM\bin
 # environment
 COMPUTERNAME = PC
 # default
@@ -169,8 +170,7 @@ __COMPAT_LAYER = DetectorsShimLog
 MAKE_VERSION := 4.3
 # environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
-# environme 
-nt
+# environment
 USERDOMAIN_ROAMINGPROFILE = PC
 # environment
 NUMBER_OF_PROCESSORS = 12
@@ -219,9 +219,9 @@ PROCESSOR_IDENTIFIER = AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD
 
 # Directories
 
-# . (key d:/nand2tetris/start/projects/06/assembler, mtime 1644040989): 9 files, no impossibilities.
+# . (key d:/nand2tetris/start/projects/06/assembler, mtime 1644042146): 7 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 7 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -229,7 +229,8 @@ PROCESSOR_IDENTIFIER = AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD
 
 # Files
 
-# Not a target:
+# Not a  
+target:
 .DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -258,16 +259,15 @@ all:
 # ? := 
 # automatic
 # | := 
-# variable set hash-table s 
-tats:
+# variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'makefile', line 2):
-	g++ assembler.cpp -o assember.exe -Wall -O3
+	g++ assembler.cpp -o assembler.exe -Wall -O3
 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-02-05 01:11:30
+#  Last modified 2022-02-05 01:21:47
 #  File has been updated.
 #  Successfully updated.
 
@@ -279,18 +279,19 @@ makefile:
 
 # files hash-table stats:
 # Load=4/1024=0%, Rehash=0, Collisions=0/16=0%
-# VPATH Search Paths
+# 
+ VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 12 / storage = 103 B / avg = 8 B
-# current buf: size = 8174 B / used = 103 B / count = 12 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 10 / storage = 83 B / avg = 8 B
+# current buf: size = 8174 B / used = 83 B / count = 10 / avg = 8 B
 
-# strcache performance: lookups = 19 / hit rate = 36%
+# strcache performance: lookups = 17 / hit rate = 41%
 # hash-table stats:
-# Load=12/8192=0%, Rehash=0, Collisions=0/19=0%
-# Finished Make data base on Sat Feb 05 01:11:32 2022
+# Load=10/8192=0%, Rehash=0, Collisions=0/17=0%
+# Finished Make data base on Sat Feb 05 01:22:27 2022
 
  

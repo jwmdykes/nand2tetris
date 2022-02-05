@@ -15,7 +15,7 @@
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [
-                "Add.asm"
+                "test_files/Max.asm"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

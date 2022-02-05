@@ -1,5 +1,7 @@
 // positive return values for information
-#define INSTRUCTION_HAS_a_FLAG 5
+#define NO_JUMP 7
+#define NO_DESTINATION 6
+#define COMP_HAS_M 5
 #define C_INSTRUCTION 4
 #define A_INSTRUCTION 3
 #define LABEL_LINE 2
@@ -11,8 +13,7 @@
 #define COULD_NOT_OPEN_FILE_WRITE -3
 #define UNDEFINED_REFERENCE -4
 #define UNRESOLVED_COMP_SYMBOL -5
-#define UNRESOLVED_DEST_SYMBOL -6
-#define UNRESOLVED_JUMP_SYMBOL -7
+#define UNRESOLVED_JUMP_SYMBOL -6
 
 #include <iostream>
 #include <fstream>
@@ -94,8 +95,8 @@ std::unordered_map<std::string, std::string> special_symbols_map({
     {"THAT", "4"},
 });
 
-std::regex label_regex(R"(\(@([a-zA-z][a-zA-Z0-9_]*)\))");
-std::regex variable_regex(R"(@([a-zA-z][a-zA-Z0-9_]*))");
+std::regex label_regex(R"(\(([a-zA-z][a-zA-Z0-9_.$]*)\))");
+std::regex variable_regex(R"(@([a-zA-z][a-zA-Z0-9_.$]*))");
 std::regex integer_regex(R"(@(-?[0-9]*))");
 
 void print_label_table()
@@ -164,7 +165,7 @@ int replace_A_with_M(std::string &line)
     std::regex r("M");
     for (std::sregex_iterator i = std::sregex_iterator(line.begin(), line.end(), r); i != std::sregex_iterator(); ++i)
     {
-        status = INSTRUCTION_HAS_a_FLAG;
+        status = COMP_HAS_M;
         std::smatch m = *i;
         line.replace(m.position(), 1, "A");
     }
@@ -203,17 +204,31 @@ int process_a_instruction(std::string &line)
 
 int process_comp(std::string &line, std::string &comp)
 {
+    int status;
     size_t idx;
+    std::smatch matches;
+    std::string integer;
+    std::string a_flag;
+
     // remove `comp` part from line
-    idx = line.find(";");
+    idx = line.find(';');
     idx = (idx == std::string::npos) ? line.size() : idx;
     comp = line.substr(0, idx);
-    idx = (idx + 1 <= line.size() - 1) ? idx + 1 : line.size() - 1;
-    line = line.substr(idx, line.size() - idx);
+    if (idx + 1 < line.size())
+    {
+        line = line.substr(idx + 1, line.size() - 1);
+    }
+    else
+    {
+        line = "";
+    }
+
+    status = replace_A_with_M(comp);
+    a_flag = (status == COMP_HAS_M) ? '1' : '0';
 
     if (comp_map.count(comp) > 0)
     {
-        comp = comp_map[comp];
+        comp = a_flag + comp_map[comp];
         return SUCCESS;
     }
     else
@@ -230,7 +245,7 @@ int process_dest(std::string &line, std::string &dest)
     idx = (idx == std::string::npos) ? line.size() : idx;
     dest = line.substr(0, idx);
     idx = (idx + 1 <= line.size() - 1) ? idx + 1 : line.size() - 1;
-    line = line.substr(idx, line.size() - idx);
+    line = line.substr(idx, line.size() - 1);
 
     if (dest_map.count(dest) > 0)
     {
@@ -239,18 +254,25 @@ int process_dest(std::string &line, std::string &dest)
     }
     else
     {
-        return UNRESOLVED_DEST_SYMBOL;
+        line = dest;
+        dest = "000";
+        return NO_DESTINATION;
     }
 }
 
 int process_jump(std::string &line, std::string &jump)
 {
-    line = "";
     jump = line;
+    line = "";
+
     if (jump_map.count(jump) > 0)
     {
         jump = jump_map[jump];
         return SUCCESS;
+    }
+    else if (jump == "")
+    {
+        return NO_JUMP;
     }
     else
     {
@@ -265,19 +287,7 @@ int process_c_instruction(std::string &line)
     std::string line_copy{line};
 
     std::string dest;
-    status = process_dest(line, dest);
-    if (status == UNRESOLVED_DEST_SYMBOL)
-    {
-        line = line_copy;
-        return UNRESOLVED_DEST_SYMBOL;
-    }
-
-    // Since there are no 'A's in any of the jump commands
-    // we can replace all the A's with M's and set the
-    // flag for whether comp uses A or M.
-    std::string a_flag;
-    status = replace_A_with_M(line);
-    a_flag = (status == INSTRUCTION_HAS_a_FLAG) ? '1' : '0';
+    process_dest(line, dest);
 
     std::string comp;
     status = process_comp(line, comp);
@@ -295,7 +305,7 @@ int process_c_instruction(std::string &line)
         return UNRESOLVED_JUMP_SYMBOL;
     }
 
-    line = "111" + a_flag + comp + dest + jump;
+    line = "111" + comp + dest + jump;
     return SUCCESS;
 }
 
@@ -345,14 +355,12 @@ int process_line(std::string &line, const int &line_number)
 
 int process_file(std::ifstream &in, std::ofstream &out)
 {
-    print_label_table();
     int status;
     int line_number = 0;
     std::string line;
     while (getline(in, line))
     {
         status = process_line(line, line_number); // process line and get code
-        // std::cout << "Processed Line: " << line << '\n';
         if (status != EMPTY_LINE && status != LABEL_LINE)
         {
             out << line << '\n';
@@ -398,15 +406,16 @@ void get_labels(std::ifstream &in) // shouldn't have exception
     std::string label;
     while (getline(in, line))
     {
-        strip_white_space(line);
+        status = strip_white_space(line);
+        if (status != EMPTY_LINE)
+        {
+            ++line_number;
+        }
         status = get_label(line, label);
         if (status == LABEL_LINE)
         {
+            --line_number;
             label_table.insert(std::make_pair(label, line_number));
-        }
-        else if (status != EMPTY_LINE) // labels and empty_lines don't use a line
-        {
-            ++line_number;
         }
     }
     in.clear();

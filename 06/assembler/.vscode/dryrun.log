@@ -1,5 +1,5 @@
 make.exe --dry-run --keep-going --print-directory
 make: Entering directory 'd:/nand2tetris/start/projects/06/assembler'
-g++ assembler.cpp -o assember.exe -Wall -O3
+g++ assembler.cpp -o assembler.exe -Wall -O3
 make: Leaving directory 'd:/nand2tetris/start/projects/06/assembler'
  
