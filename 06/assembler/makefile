@@ -1,2 +1,2 @@
 all:
-	g++ assembler.cpp -o assember.exe -Wall
+	g++ assembler.cpp -o assember.exe -Wall -O3

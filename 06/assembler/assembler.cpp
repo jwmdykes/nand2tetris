@@ -68,6 +68,31 @@ std::unordered_map<std::string, std::string> jump_map({
     {"JLE", "110"},
     {"JMP", "111"},
 });
+std::unordered_map<std::string, std::string> special_symbols_map({
+    {"R0", "0"},
+    {"R1", "1"},
+    {"R2", "2"},
+    {"R3", "3"},
+    {"R4", "4"},
+    {"R5", "5"},
+    {"R6", "6"},
+    {"R7", "7"},
+    {"R8", "8"},
+    {"R9", "9"},
+    {"R10", "10"},
+    {"R11", "11"},
+    {"R12", "12"},
+    {"R13", "13"},
+    {"R14", "14"},
+    {"R15", "15"},
+    {"SCREEN", "16384"},
+    {"KBD", "24576"},
+    {"SP", "0"},
+    {"LCL", "1"},
+    {"ARG", "2"},
+    {"THIS", "3"},
+    {"THAT", "4"},
+});
 
 std::regex label_regex(R"(\(@([a-zA-z][a-zA-Z0-9_]*)\))");
 std::regex variable_regex(R"(@([a-zA-z][a-zA-Z0-9_]*))");
@@ -156,7 +181,6 @@ int process_a_instruction(std::string &line)
     variable = matches.str(1);
     std::regex_search(line, matches, integer_regex);
     integer = matches.str(1);
-    std::cout << line << '\n';
     if (label_table.count(variable) > 0)
     {
         return encode_a_instruction(line, label_table[variable]);
@@ -179,7 +203,7 @@ int process_a_instruction(std::string &line)
 
 int process_comp(std::string &line, std::string &comp)
 {
-    int idx;
+    size_t idx;
     // remove `comp` part from line
     idx = line.find(";");
     idx = (idx == std::string::npos) ? line.size() : idx;
@@ -237,7 +261,6 @@ int process_jump(std::string &line, std::string &jump)
 int process_c_instruction(std::string &line)
 {
     int status;
-    int idx;
     // keep a copy of the line to give as an error message
     std::string line_copy{line};
 
@@ -276,6 +299,19 @@ int process_c_instruction(std::string &line)
     return SUCCESS;
 }
 
+void remove_special_symbols(std::string &line)
+{
+    std::string key;
+    std::string value;
+    for (auto &&pair : special_symbols_map)
+    {
+        key = pair.first;
+        value = pair.second;
+
+        line = std::regex_replace(line, std::regex(key), value);
+    }
+}
+
 int process_line(std::string &line, const int &line_number)
 {
     int status;
@@ -286,6 +322,8 @@ int process_line(std::string &line, const int &line_number)
     {
         return EMPTY_LINE;
     }
+
+    remove_special_symbols(line);
 
     status = get_label(line, label); // skip label lines
     if (status == LABEL_LINE)
@@ -314,7 +352,7 @@ int process_file(std::ifstream &in, std::ofstream &out)
     while (getline(in, line))
     {
         status = process_line(line, line_number); // process line and get code
-        std::cout << "Processed Line: " << line << '\n';
+        // std::cout << "Processed Line: " << line << '\n';
         if (status != EMPTY_LINE && status != LABEL_LINE)
         {
             out << line << '\n';
@@ -459,5 +497,6 @@ int main(int argc, char **argv)
         return status;
     }
 
+    std::cout << "Files outputted successfully!\n";
     return status;
 }

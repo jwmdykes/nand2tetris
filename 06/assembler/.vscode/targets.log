@@ -5,8 +5,9 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sat Feb 05 00:16:59 2022
+# Make data base, printed on Sat Feb 05 01:11:32 2022
 
 # Variables
 
@@ -168,7 +169,8 @@ __COMPAT_LAYER = DetectorsShimLog
 MAKE_VERSION := 4.3
 # environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
-# environment
+# environme 
+nt
 USERDOMAIN_ROAMINGPROFILE = PC
 # environment
 NUMBER_OF_PROCESSORS = 12
@@ -217,7 +219,7 @@ PROCESSOR_IDENTIFIER = AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD
 
 # Directories
 
-# . (key d:/nand2tetris/start/projects/06/assembler, mtime 1644038129): 9 files, no impossibilities.
+# . (key d:/nand2tetris/start/projects/06/assembler, mtime 1644040989): 9 files, no impossibilities.
 
 # 9 files, no impossibilities in 1 directories.
 
@@ -256,15 +258,16 @@ all:
 # ? := 
 # automatic
 # | := 
-# variable set hash-table stats:
+# variable set hash-table s 
+tats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'makefile', line 2):
-	g++ assembler.cpp -o assember.exe -Wall
+	g++ assembler.cpp -o assember.exe -Wall -O3
 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-02-04 22:28:47
+#  Last modified 2022-02-05 01:11:30
 #  File has been updated.
 #  Successfully updated.
 
@@ -282,12 +285,12 @@ makefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 12 / storage = 99 B / avg = 8 B
-# current buf: size = 8174 B / used = 99 B / count = 12 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 12 / storage = 103 B / avg = 8 B
+# current buf: size = 8174 B / used = 103 B / count = 12 / avg = 8 B
 
 # strcache performance: lookups = 19 / hit rate = 36%
 # hash-table stats:
 # Load=12/8192=0%, Rehash=0, Collisions=0/19=0%
-# Finished Make data base on Sat Feb 05 00:16:59 2022
+# Finished Make data base on Sat Feb 05 01:11:32 2022
 
  
