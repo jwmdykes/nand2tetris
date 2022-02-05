@@ -385,7 +385,9 @@ int assemble(const std::string &filename)
     {
         return COULD_NOT_OPEN_FILE_READ;
     }
-    status = setup_file_write(filename + ".hack", out_file);
+    size_t lastindex = filename.find_last_of(".");
+    std::string output_filename = filename.substr(0, lastindex);
+    status = setup_file_write(output_filename + ".hack", out_file);
     if (status != SUCCESS)
     {
         return COULD_NOT_OPEN_FILE_WRITE;
